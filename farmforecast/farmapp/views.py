@@ -10,10 +10,8 @@ import re
 
 def index(request):
     
-    if request.method == 'POST':
+    if 'city' in request.POST:
         city = request.POST['city']
-        source = urllib.request.urlopen()
-        season = request.POST['season']
 
 
     conn = http.client.HTTPSConnection("visual-crossing-weather.p.rapidapi.com")
@@ -71,6 +69,8 @@ def index(request):
         for i in l2:
             l2[l2.index(i)] = float(i)
         return sum(l2)
+
+    season = request.GET.get('season')
     if season == 'kharif':
         
 
@@ -85,7 +85,7 @@ def index(request):
         df4 = bigbang(p4)
 
         dl = df1+df2+df3+df4
-        return render(request, 'main/index.html', dl)
+    return render(request, 'main/index.html', {"dl":dl})
 
     if season == 'rabi':
         
@@ -101,5 +101,4 @@ def index(request):
         df8 = bigbang(p8)
 
         dl2 = df5+df6+df7+df8
-        return render(request, 'main/index.html', dl2)
-
+    return render(request, 'main/index.html', {"dl2":dl2})
