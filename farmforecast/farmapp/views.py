@@ -10,8 +10,7 @@ import re
 
 def index(request):
     
-    if 'city' in request.POST:
-        city = request.POST['city']
+    city = request.GET.get('city')
 
 
     conn = http.client.HTTPSConnection("visual-crossing-weather.p.rapidapi.com")
@@ -72,9 +71,6 @@ def index(request):
 
     season = request.GET.get('season')
     if season == 'kharif':
-        
-
-        
         p1 = f"/history?startDateTime=2022-06-01&aggregateHours=24&location={city}&endDateTime=2022-06-30&unitGroup=us&dayStartTime=8%3A00%3A00&contentType=csv&dayEndTime=17%3A00%3A00&shortColumnNames=0"
         p2 = f"/history?startDateTime=2022-07-01&aggregateHours=24&location={city}&endDateTime=2022-07-30&unitGroup=us&dayStartTime=8%3A00%3A00&contentType=csv&dayEndTime=17%3A00%3A00&shortColumnNames=0"
         p3 = f"/history?startDateTime=2022-08-01&aggregateHours=24&location={city}&endDateTime=2022-08-30&unitGroup=us&dayStartTime=8%3A00%3A00&contentType=csv&dayEndTime=17%3A00%3A00&shortColumnNames=0"
@@ -84,13 +80,10 @@ def index(request):
         df3 = bigbang(p3)
         df4 = bigbang(p4)
 
-        dl = df1+df2+df3+df4
-    return render(request, 'main/index.html', {"dl":dl})
+        dl = 156.25*(df1+df2+df3+df4)
+        return render(request, 'main/index.html', {"dl":dl})
 
     if season == 'rabi':
-        
-
-        
         p5 = f"/history?startDateTime=2022-09-01&aggregateHours=24&location={city}&endDateTime=2022-09-30&unitGroup=us&dayStartTime=8%3A00%3A00&contentType=csv&dayEndTime=17%3A00%3A00&shortColumnNames=0"
         p6 = f"/history?startDateTime=2022-10-01&aggregateHours=24&location={city}&endDateTime=2022-10-30&unitGroup=us&dayStartTime=8%3A00%3A00&contentType=csv&dayEndTime=17%3A00%3A00&shortColumnNames=0"
         p7 = f"/history?startDateTime=2022-11-01&aggregateHours=24&location={city}&endDateTime=2022-11-30&unitGroup=us&dayStartTime=8%3A00%3A00&contentType=csv&dayEndTime=17%3A00%3A00&shortColumnNames=0"
@@ -99,6 +92,8 @@ def index(request):
         df6 = bigbang(p6)
         df7 = bigbang(p7)
         df8 = bigbang(p8)
+        dl2 = 156.25*(df5+df6+df7+df8)
+        return render(request, 'main/index.html', {"dl":dl2})
 
-        dl2 = df5+df6+df7+df8
-    return render(request, 'main/index.html', {"dl2":dl2})
+    else:
+        return render(request, 'main/index.html', {"dl":'--'})
