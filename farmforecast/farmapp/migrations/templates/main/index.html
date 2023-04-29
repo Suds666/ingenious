@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'static/img/styles.css' %}" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-
     <title>FarmForecast</title>
 </head>
 <body>
     <header>
     
         <div id="title"><h1>FarmForecast</h1></div>
-            <img src= FARMforecast.png alt="Logo" id="logo">
-            <form method="POST">
+            <img src= "{% static 'static/img/FARMforecast.png' %}" alt="Logo" id="logo">
+            <form method="GET">{% csrf_token %}
             <div class="search">
                 <input type="text" placeholder='Enter place' name="city" class="search"/>
                 <button type="submit" class="search">
@@ -23,8 +23,15 @@
                     </svg>
                 </button>
             </div>
+            <form method="GET">{% csrf_token %}
+                <label for="season">My Variable:</label>
+                <input type="text" id="season" name="season">
+                <input type="submit" value="Submit">
+              </form>
+              
         </div>
     </header> 
+    <h1>Rainfall:{{dl}}</h1>
 </body>
 <script src="script.js"></script>
 </html>
